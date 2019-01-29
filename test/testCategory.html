@@ -22,6 +22,12 @@
                 console.error(err);
             })
         }
+        btn3.onclick=function(){
+            var data=new FormData();
+            data.append('description',inputDesc.value);
+            data.append('dishImg',inputFile.files[0].append());
+            
+        }
     </script>
 </body>
 </html>

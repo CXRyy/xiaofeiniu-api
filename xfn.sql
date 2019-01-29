@@ -91,11 +91,11 @@ CREATE TABLE xfn_category(
     cname VARCHAR(32) #类别名称
 );
 INSERT INTO xfn_category VALUES
-(NUll,'肉类'),
-(NUll,'海鲜类'),
-(NUll,'菌菇类'),
-(NUll,'蔬菜类'),
-(NUll,'豆制品类');
+(NULL, '肉类'),
+(NULL, '海鲜河鲜'),
+(NULL, '丸滑类'),
+(NULL, '蔬菜豆制品'),
+(NULL, '菌菇类');
 
 #菜品信息表
 CREATE TABLE xfn_dish(
