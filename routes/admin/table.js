@@ -13,7 +13,7 @@ router.get("/",(req,res)=>{
 //预约
 router.get("/reservation:tid",(req,res)=>{
     var $tid=req.params.tid;
-    var sql="SELECT * FROM xfn_table_detail WHERE tid=?";
+    var sql="SELECT * FROM xfn_table_detail WHERE tid=? AND status=2";
     pool.query(sql,[$tid],(err,result)=>{
         if(err){
             throw err;
@@ -24,7 +24,7 @@ router.get("/reservation:tid",(req,res)=>{
 //占用
 router.get("/inuse/:tid",(req,res)=>{
     var $tid=req.params.tid;
-    var sql="SELECT * FROM xfn_table_detail WHERE tid=?";
+    var sql="SELECT * FROM xfn_table_detail WHERE tid=? AND status=3";
     pool.query(sql,[$tid],(err,result)=>{
         if(err){
             throw err;
