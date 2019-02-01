@@ -11,9 +11,9 @@ router.get("/",(req,res)=>{
     })
 })
 //预约
-router.get("/reservation:tid",(req,res)=>{
+router.get("/reservation/:tid",(req,res)=>{
     var $tid=req.params.tid;
-    var sql="SELECT * FROM xfn_table_detail WHERE tid=? AND status=2";
+    var sql="SELECT * FROM xfn_table WHERE tid=? AND status=2";
     pool.query(sql,[$tid],(err,result)=>{
         if(err){
             throw err;
@@ -24,7 +24,7 @@ router.get("/reservation:tid",(req,res)=>{
 //占用
 router.get("/inuse/:tid",(req,res)=>{
     var $tid=req.params.tid;
-    var sql="SELECT * FROM xfn_table_detail WHERE tid=? AND status=3";
+    var sql="SELECT * FROM xfn_table WHERE tid=? AND status=3";
     pool.query(sql,[$tid],(err,result)=>{
         if(err){
             throw err;
@@ -54,17 +54,31 @@ router.post("/",(req,res)=>{
         if(err){
             throw err;
         }
-        res.send({code:200,msg:"table added success"});
+        res.send({code:200,msg:"table added success",tid:result.insertId});
     })
 })
 router.delete("/:tid",(req,res)=>{
     var $tid=req.params.tid;
-    var sql="DELETE FROM xfn_table WHERE tid=?";
+    var sql="SELECT status FROM xfn_table WHERE tid=?";
     pool.query(sql,[$tid],(err,result)=>{
         if(err){
             throw err;
         }
-        res.send({code:200,msg:"table deleted success"});
-    })
+        if(result.length>0){
+            if(result[0].status==4){
+                sql="DELETE FROM xfn_table WHERE tid=?";
+                pool.query(sql,[$tid],(err,result)=>{
+                    if(err){
+                        throw err;
+                    }
+                    res.send({code:200,msg:"table deleted success"});
+                }) 
+            }else{
+                res.send({code:401,msg:"table status is inuse"}) 
+            }
+        }else{
+            res.send({code:400,msg:"table is not exist"})
+        }
+    })   
 })
 module.exports=router;
